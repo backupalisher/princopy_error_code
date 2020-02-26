@@ -23,8 +23,6 @@ def get_pagination_index_models(soup):
         pagination = soup.find_all('div', class_='btnCell')[-1]
         pagination_links = pagination.find('a')['href']
         count = re.search(r'\d*$', pagination_links)
-        print(pagination_links)
-        print(count[0])
         return int(count[0])
     except:
         return 1
