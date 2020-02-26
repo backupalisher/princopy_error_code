@@ -33,21 +33,20 @@ def get_save_links():
 
 
 def parser_models():
-    i = 0
+    file_index = 0
     model_links = file_utils.load_links_brand()
     for brand in model_links:
         for model in brand:
-            i += 1
+            file_index += 1
             proxy = {'http': 'http://' + get_proxy.get_proxies_list()}
             useragent = {'User-Agent': get_proxy.get_useregent_list()}
-
             # присваиваем html страницу в переменную soup
             soup = parser.get_html(model['href'], useragent, proxy)
             page_count = parser.get_pagination_index_models(soup)
             model_name = model['name']
             brands = re.findall('^[^\s]+', model_name)
             brand_name = brands[0]
-            print(str(i) + ': ' + model_name + ', page count: ' + str(page_count))
+            print(str(file_index) + ': ' + model_name + ', page count - ' + str(page_count))
             erc_csv = parser.parser_errors(soup, brand_name, model_name)
             file_utils.save_error_code(erc_csv, brand_name, model_name)
             if page_count > 1:
@@ -57,8 +56,6 @@ def parser_models():
                         soup = parser.get_html(model['href'] + f'&page={index}', useragent, proxy)
                         erc_csv = parser.parser_errors(soup, brand_name, model_name)
                         file_utils.save_error_code(erc_csv, brand_name, model_name)
-            break
-        break
 
 
 # code

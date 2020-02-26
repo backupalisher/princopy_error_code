@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup as bs
 
 
 def get_html(url, useragent=None, proxy=None):
-    t = uniform(2, 10)
+    t = uniform(2, 6)
     sleep(t)
     session = requests.Session()
     request = session.get(url=url, headers=useragent, proxies=proxy)
@@ -22,7 +22,9 @@ def get_pagination_index_models(soup):
     try:
         pagination = soup.find_all('div', class_='btnCell')[-1]
         pagination_links = pagination.find('a')['href']
-        count = re.search('page=.*?(\d+)', pagination_links).group(1)
+        count = re.search(r'\d*$', pagination_links)
+        print(pagination_links)
+        print(count[0])
         return int(count[0])
     except:
         return 1
