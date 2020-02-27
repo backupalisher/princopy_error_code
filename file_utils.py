@@ -20,7 +20,8 @@ def save_error_code(ercs, brand_name, model_name):
     if not os.path.exists(brand_name):
         os.mkdir(brand_name)
     for erc in ercs:
-        with open(os.path.join(os.path.dirname(__file__), brand_name, f'{model_name}.csv'), 'a', encoding='utf-8') as file:
+        with open(os.path.join(os.path.dirname(__file__), brand_name, f'{model_name}.csv'), 'a',
+                  encoding='utf-8') as file:
             try:
                 add_data = csv.writer(file, delimiter=';', lineterminator='\n')
                 add_data.writerow((erc['caption'], erc['value']))
@@ -58,8 +59,8 @@ def save_img(url, brand_name, model_name):
     if r.status_code == 200:
         timestamp = str(round(time.time() * 1000))
 
-        if not os.path.exists(brand_name):
-            os.mkdir(brand_name)
+        if not os.path.exists(brand_name + '_image'):
+            os.mkdir(brand_name + '_image')
         file_name = spaseSub(model_name) + '_' + timestamp + '.png'
         with open(os.path.join(os.path.dirname(__file__), brand_name + '_image', file_name),
                   'wb') as f:
